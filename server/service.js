@@ -28,6 +28,9 @@ module.exports = {
    * 获取文章详情
    */
   async getPost(filter) {
+    // 更新阅读数量
+    query(`UPDATE ${db.POSTS} SET VIEW_NUMBER=VIEW_NUMBER+1 WHERE ID=?`, [filter])
+    // 获取文章内容
     let sql = `SELECT * FROM ${db.POSTS} WHERE ID=?`
     let result = await query(sql, [filter])
     let file = fs.readFileSync(path.resolve(__dirname, result[0].FILE_PATH))
@@ -40,6 +43,21 @@ module.exports = {
    * 发布文章
    */
   async submitPost(data) {
+    // 判断安全码
+    if (data.secureCode) {
+      let secureRes = await query(`SELECT * FROM ${db.SETTINGS} WHERE KEY_NAME='secure_code' AND KEY_VALUE=?`, data.secureCode)
+      if (!secureRes[0] && !secureRes[0].KEY_VALUE) {
+        return {
+          row: 0,
+          msg: '请输入正确安全码'
+        }
+      }
+    } else {
+      return {
+        row: 0,
+        msg: '请输入正确安全码'
+      }
+    }
     let tagID = data.tagId, tagName = data.tagName
     // 新创建标签
     if (data.tagId == '0') {

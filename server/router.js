@@ -53,23 +53,16 @@ router.get('/tagList', koaBody(), async (ctx) => {
  */
 router.post('/submit', koaBody(), async (ctx) => {
   let params = ctx.request.body
-  if (params.secureCode && params.secureCode == '4dd9dae38846b4b991a957586fe4e33b') {
-    let result = await service.submitPost(params)
-    if (result.rows === 1) {
-      ctx.body = {
-        code: 100,
-        data: []
-      }
-    } else {
-      ctx.body = {
-        code: 200,
-        data: result.msg
-      }
+  let result = await service.submitPost(params)
+  if (result.rows === 1) {
+    ctx.body = {
+      code: 100,
+      data: []
     }
   } else {
     ctx.body = {
       code: 200,
-      data: '请输入正确安全码'
+      data: result.msg
     }
   }
 })

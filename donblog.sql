@@ -28,6 +28,7 @@ CREATE TABLE `posts` (
   `TAG_ID` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '分类ID',
   `TAG_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '分类名称',
   `LIKE_NUMBER` bigint(20) DEFAULT '0' COMMENT '文章被点赞数量',
+  `VIEW_NUMBER` bigint(20) DEFAULT '0' COMMENT '文章被阅读数量',
   `BACK_PICTURE` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文章背景图片显示',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -41,4 +42,15 @@ CREATE TABLE `tags` (
   `TAG_NAME` varchar(255) NOT NULL COMMENT '分类名称',
   `POST_NUMBER` int(11) DEFAULT '0' COMMENT '该tag标签下文章数量',
   PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
+-- Table structure for settings
+-- ----------------------------
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE `settings` (
+  `KEY_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `KEY_VALUE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`KEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

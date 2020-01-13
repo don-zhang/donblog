@@ -57,10 +57,14 @@ export default {
   /**
    * 服务端获取首页数据，渲染后将结果页面直接发送至浏览器
    */
-  async asyncData({ params }) {
-    let res = await postDetailApi('?id=' + params.id)
-    return {
-      post: res.data
+  async asyncData({ params, error, redirect }) {
+    try {
+      let res = await postDetailApi('?id=' + params.id)
+      return {
+        post: res.data
+      }
+    } catch (error) {
+      redirect('/error/index')
     }
   },
 

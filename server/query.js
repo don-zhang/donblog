@@ -8,7 +8,8 @@ const pool = mysql.createPool({
 })
 const db = {
   TAGS: 'tags',
-  POSTS: 'posts'
+  POSTS: 'posts',
+  SETTINGS: 'settings'
 }
 const query = (sql, val) => {
   return new Promise((resolve, reject) => {
