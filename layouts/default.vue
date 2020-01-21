@@ -1,9 +1,7 @@
 <template>
   <div class="layout">
     <div class="top-header">
-      <nuxt-link to="/">
-        <Logo></Logo>
-      </nuxt-link>
+      <Logo></Logo>
     </div>
     <div class="container">
       <a-locale-provider :locale="zh_CN">
@@ -11,7 +9,7 @@
       </a-locale-provider>
     </div>
     <div class="footer">
-      <div><span style="margin-right: 20px;">©POWERED BY DON, {{date}}</span> 备案号：蜀ICP备19000980号-2</div>
+      <div><span style="margin-right: 20px;">©{{date}}, POWERED BY DON</span> 备案号：蜀ICP备19000980号-2</div>
       <div class="footer__tip">转载内容版权归作者及来源网站所有，本站原创内容转载请注明来源</div>  
     </div>
   </div>

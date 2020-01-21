@@ -136,7 +136,6 @@ export default {
     font-size: 20px;
     font-weight: bold;
     border-left: 3px;
-    letter-spacing: 1px;
     word-spacing: 1px;
     .post-title-line {
       position: absolute;
@@ -158,7 +157,6 @@ export default {
     .post-item-title {
       font-size: 18px;
       font-weight: bold;
-      letter-spacing: 2px;
       word-spacing: 2px;
     }
   }

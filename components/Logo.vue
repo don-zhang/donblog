@@ -1,5 +1,5 @@
 <template>
-  <div class="logo">
+  <div class="logo" @click="reload">
     <svg
       viewBox="-174.64788732394368 0 349.29577464788736 100"
       xmlns="http://www.w3.org/2000/svg"
@@ -64,10 +64,20 @@
     </svg>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    reload() {
+      window.location.reload()
+    }
+  }
+}
+</script>
 <style>
 .logo {
   position: relative;
   left: 240px;
   padding-top: 5px;
+  cursor: pointer;
 }
 </style>
