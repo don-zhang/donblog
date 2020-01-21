@@ -23,13 +23,13 @@
       <div class="info">
         <label>内容</label>/*markdown编辑器*/
       </div>
-      <mavon-editor :toolbars="markdownOptions" v-model="content" />
+      <mavon-editor ref=md :toolbars="markdownOptions" v-model="content" @imgAdd="$imgAdd" @imgDel="$imgDel"/>
     </no-ssr>
     <div class="info tag">
       <label>分类标签</label>
       <a-select
         style="width: 120px"
-        :defaultValue="{key: tags[0].ID, label:tags[0].TAG_NAME}"
+        :defaultValue="{key: tags.length > 0 ? tags[0].ID : 0, label: tags.length > 0 ? tags[0].TAG_NAME : ''}"
         :labelInValue="true"
         @change="tagChange"
       >
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { tagsApi, submitPostApi } from '@/http/api/postApi'
+import { tagsApi, submitPostApi, addImgApi, delImgApij } from '@/http/api/postApi'
 import moment from 'moment'
 import md5 from 'md5'
 export default {
@@ -115,12 +115,18 @@ export default {
   /**
    * 服务端获取首页数据，渲染后将结果页面直接发送至浏览器
    */
-  async asyncData() {
-    let res = await tagsApi()
-    return {
-      tagId: res.data[0].ID || null,
-      tagName: res.data[0].TAG_NAME || '',
-      tags: res.data
+  async asyncData({redirect}) {
+    try {
+      let res = await tagsApi()
+      let tagId = res.data.length > 0 ? res.data[0].ID : 0
+      let tagName = res.data.length > 0 ? res.data[0].TAG_NAME : ''
+      return {
+        tagId: tagId,
+        tagName: tagName,
+        tags: res.data
+      }
+    } catch (error) {
+      redirect('/error/index')
     }
   },
 
@@ -130,6 +136,26 @@ export default {
 
   methods: {
     moment,
+    /**
+     * 上传图片
+     */
+    $imgAdd(pos, $file){
+      // 第一步.将图片上传到服务器.
+      var formdata = new FormData()
+      formdata.append('img', $file)
+      addImgApi(formdata).then((res) => {
+        this.$refs.md.$img2Url(pos, res.data)
+      })
+    },
+    /**
+     * 删除图片
+     */
+    $imgDel($fileName) {
+      let filepath = $fileName[0]
+      delImgApi({filepath: filepath}).then(res => {
+        console.dir(res)
+      })
+    },
     /**
      * 选择类别标签
      */
@@ -202,8 +228,8 @@ export default {
       this.description = ''
       this.content = ''
       this.backPicture = ''
-      this.tagId = this.tags[0].ID
-      this.tagName = this.tags[0].TAG_NAME
+      this.tagId = this.tags.length > 0 ? this.tags[0].ID : null
+      this.tagName = this.tags.length > 0 ? this.tags[0].TAG_NAME : ''
     }
   }
 }

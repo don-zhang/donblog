@@ -6,7 +6,7 @@
       xmlns:xlink="http://www.w3.org/1999/xlink"
       version="1.1"
       class="jsx-2263963463 artboard-inner"
-      style="width: 140px; height: 36px; max-height: 100%; margin-bottom: 7px"
+      style="width: 84px; height: 26px; max-height: 100%; margin-bottom: 7px"
     >
       <g
         transform="translate(-181.69014084507043 98.59154929577466) scale(1.9561815336463222)"
@@ -37,7 +37,7 @@
       xmlns:xlink="http://www.w3.org/1999/xlink"
       version="1.1"
       class="jsx-2263963463 artboard-inner"
-      style="height: 44px; max-height: 100%;"
+      style="height: 36px; max-height: 100%;"
     >
       <g
         transform="translate(-149.47727272727275 80.34090909090908) scale(1.578282828282828)"
@@ -67,6 +67,7 @@
 <style>
 .logo {
   position: relative;
-  left: 140px;
+  left: 240px;
+  padding-top: 5px;
 }
 </style>

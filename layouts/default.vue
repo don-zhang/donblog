@@ -10,7 +10,10 @@
         <nuxt />
       </a-locale-provider>
     </div>
-    <div class="footer">©{{date}}, 备案号：xxxxxxx</div>
+    <div class="footer">
+      <div><span style="margin-right: 20px;">©POWERED BY DON, {{date}}</span> 备案号：蜀ICP备19000980号-2</div>
+      <div class="footer__tip">转载内容版权归作者及来源网站所有，本站原创内容转载请注明来源</div>  
+    </div>
   </div>
 </template>
 
@@ -83,9 +86,15 @@ body {
 }
 .footer {
   height: 100px;
-  line-height: 100px;
-  font-size: 15px;
+  font-size: 14px;
   text-align: center;
+  font-weight: 500;
+  margin-top: 150px;
+}
+.footer__tip{
+  font-size: 13px;
+  color: #adadad;
+  margin-top: 10px;
 }
 .back-top .ant-back-top {
   bottom: 100px;

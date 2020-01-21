@@ -60,3 +60,25 @@ export function likeApi(data) {
     method: 'GET'
   })
 }
+
+/**
+ * 上传图片
+ */
+export function addImgApi(data) {
+  return request({
+    url: '/api/addImg',
+    method: 'POST',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: data
+  })
+}
+/**
+ * 删除图片
+ */
+export function delImgApi(data) {
+  return request({
+    url: '/api/delImg',
+    method: 'POST',
+    data: data
+  })
+}
