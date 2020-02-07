@@ -1,5 +1,5 @@
 const { db, query } = require('./query')
-const uuidv1 = require('uuid/v1')
+var random = require('string-random')
 const fs = require('fs')
 module.exports = {
   /**
@@ -60,7 +60,7 @@ module.exports = {
     let tagID = data.tagId, tagName = data.tagName
     // 新创建标签
     if (data.tagId == '0') {
-      tagID = uuidv1()
+      tagID = random(16)
       let tagRes = await query(`INSERT INTO ${db.TAGS}(ID, TAG_NAME, POST_NUMBER) VALUES (?, ?, ?)`,
         [tagID, data.tagName, 1])
       if (tagRes.affectedRows === 0) {
@@ -70,7 +70,7 @@ module.exports = {
         }
       }
     }
-    let postID = uuidv1()
+    let postID = random(16)
     let filePath = db.FILEPATH + data.title + '.md'
     // markdown数据写入文件
     fs.writeFile(filePath, data.content, function (err) {

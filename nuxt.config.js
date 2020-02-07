@@ -1,4 +1,5 @@
-
+var CopyWebpackPlugin = require('copy-webpack-plugin')
+var path = require('path')
 module.exports = {
   mode: 'universal',
   /*
@@ -46,6 +47,18 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-    }
+    },
+    plugins: [
+      new CopyWebpackPlugin([{
+        from: 'node_modules/mavon-editor/dist/highlightjs',
+        to: path.resolve(__dirname, 'static/highlightjs'), // 插件将会把文件导出于/dist/highlightjs之下
+      }, {
+        from: 'node_modules/mavon-editor/dist/markdown',
+        to: path.resolve(__dirname, 'static/markdown'), // 插件将会把文件导出于/dist/markdown之下
+      }, {
+        from: 'node_modules/mavon-editor/dist/katex', // 插件将会把文件导出
+        to: path.resolve(__dirname, 'static/katex')
+      }])
+    ]
   }
 }

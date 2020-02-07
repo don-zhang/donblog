@@ -33,6 +33,7 @@
         :toolbarsFlag="false"
         :editable="false"
         boxShadowStyle="none"
+        :externalLink="externalLink"
       ></mavon-editor>
     </no-ssr>
     <div class="last">
@@ -54,6 +55,36 @@
 <script>
 import { postDetailApi, likeApi } from '@/http/api/postApi'
 export default {
+  data() {
+    return {
+      externalLink: {
+        markdown_css: function() {
+          // 这是你的markdown css文件路径
+          return '/markdown/github-markdown.min.css'
+        },
+        hljs_js: function() {
+          // 这是你的hljs文件路径
+          return '/highlightjs/highlight.min.js'
+        },
+        hljs_css: function(css) {
+          // 这是你的代码高亮配色文件路径
+          return '/highlightjs/styles/' + css + '.min.css'
+        },
+        hljs_lang: function(lang) {
+          // 这是你的代码高亮语言解析路径
+          return '/highlightjs/languages/' + lang + '.min.js'
+        },
+        katex_css: function() {
+          // 这是你的katex配色方案路径路径
+          return '/katex/katex.min.css'
+        },
+        katex_js: function() {
+          // 这是你的katex.js路径
+          return '/katex/katex.min.js'
+        }
+      }
+    }
+  },
   /**
    * 服务端获取首页数据，渲染后将结果页面直接发送至浏览器
    */
@@ -92,8 +123,9 @@ export default {
   margin: 0 auto;
   .back-button {
     position: fixed;
-    left: 300px;
+    left: 5%;
     top: 68px;
+    z-index: 2000;
   }
   .top-picture {
     width: 100%;

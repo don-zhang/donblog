@@ -63,6 +63,7 @@ import { tagsApi, submitPostApi, addImgApi, delImgApij } from '@/http/api/postAp
 import moment from 'moment'
 import md5 from 'md5'
 export default {
+  layout: 'submit',
   data() {
     return {
       title: '',
@@ -239,11 +240,10 @@ export default {
 .mavon-editor {
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
   top: 48px;
-  background: #ffffff;
   .info {
     display: flex;
     align-items: center;

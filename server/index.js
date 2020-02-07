@@ -28,12 +28,10 @@ async function start() {
   }
   app.use(route.routes(), route.allowedMethods())   // 启动路由及路由出错的处理逻辑
   app.use((ctx) => {
-    if (ctx.url.indexOf('/api') === -1) {
-      ctx.status = 200
-      ctx.respond = false // Bypass Koa's built-in response handling
-      ctx.req.ctx = ctx // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
-      nuxt.render(ctx.req, ctx.res)
-    }
+    ctx.status = 200
+    ctx.respond = false // Bypass Koa's built-in response handling
+    ctx.req.ctx = ctx // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
+    nuxt.render(ctx.req, ctx.res)
   })
   app.listen(port, host)
   consola.ready({

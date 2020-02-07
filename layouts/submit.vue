@@ -4,9 +4,7 @@
       <Logo></Logo>
     </div>
     <a-locale-provider :locale="zh_CN">
-      <div class="container">
-        <nuxt />
-      </div>
+      <nuxt />
     </a-locale-provider>
     <div class="footer">
       <div>
@@ -76,14 +74,6 @@ body {
   background: #fff;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
-.container {
-  width: 85%;
-  max-width: 960px;
-  margin: 0 auto;
-  background: #ffffff;
-  padding: 20px;
-  margin-top: 68px;
-}
 .footer {
   height: 100px;
   font-size: 14px;
@@ -95,19 +85,6 @@ body {
   font-size: 13px;
   color: #adadad;
   margin-top: 10px;
-}
-.back-top .ant-back-top {
-  bottom: 100px;
-}
-.back-top .ant-back-top-inner {
-  height: 40px;
-  width: 40px;
-  line-height: 40px;
-  border-radius: 4px;
-  background-color: #7871af;
-  color: #ffffff;
-  text-align: center;
-  font-size: 20px;
 }
 .ant-message {
   z-index: 2000;

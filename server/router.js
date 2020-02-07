@@ -107,7 +107,7 @@ var upload = multer({ storage: storage })
  * 上传文件、图片
  */
 router.post('/addImg', upload.single('img'), async (ctx) => {
-  let filePath =  ctx.req.headers.origin + '/images/' + ctx.request.file.filename
+  let filePath = ctx.req.headers.origin + '/images/' + ctx.request.file.filename
   ctx.body = {
     code: 100,
     data: filePath
