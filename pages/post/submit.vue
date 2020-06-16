@@ -23,7 +23,7 @@
       <div class="info">
         <label>内容</label>/*markdown编辑器*/
       </div>
-      <mavon-editor ref=md :toolbars="markdownOptions" v-model="content" @imgAdd="$imgAdd" @imgDel="$imgDel"/>
+      <mavon-editor ref=md :toolbars="markdownOptions" v-model="content" @imgAdd="$imgAdd" @imgDel="$imgDel" :externalLink="false"/>
     </no-ssr>
     <div class="info tag">
       <label>分类标签</label>

@@ -33,6 +33,7 @@
         :toolbarsFlag="false"
         :editable="false"
         boxShadowStyle="none"
+        :ishljs="true"
         :externalLink="externalLink"
       ></mavon-editor>
     </no-ssr>
@@ -57,18 +58,19 @@ import { postDetailApi, likeApi } from '@/http/api/postApi'
 export default {
   data() {
     return {
+      //externalLink: false
       externalLink: {
         markdown_css: function() {
           // 这是你的markdown css文件路径
-          return '/markdown/github-markdown.min.css'
+          return '/highlightjs/styles/monokai-sublime.min.css'
         },
         hljs_js: function() {
           // 这是你的hljs文件路径
           return '/highlightjs/highlight.min.js'
         },
-        hljs_css: function(css) {
+        hljs_css: function() {
           // 这是你的代码高亮配色文件路径
-          return '/highlightjs/styles/' + css + '.min.css'
+          return '/highlightjs/styles/monokai-sublime.min.css'
         },
         hljs_lang: function(lang) {
           // 这是你的代码高亮语言解析路径
@@ -146,8 +148,7 @@ export default {
     .title {
       font-size: 20px;
       font-weight: bold;
-      height: 80px;
-      line-height: 80px;
+      margin: 30px 0;
     }
     .sub-title {
       margin-bottom: 30px;

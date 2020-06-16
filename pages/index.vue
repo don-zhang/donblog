@@ -117,7 +117,7 @@ export default {
       font-weight: bold;
       text-shadow: 4px 4px 3px #383838;
       &:hover {
-        background-color: rgba(242, 237, 255, 0.75);
+        background-color: rgba(124, 74, 255, 0.75);
       }
     }
     sup {

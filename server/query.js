@@ -1,7 +1,7 @@
 const mysql = require('mysql')
 const pool = mysql.createPool({
   user: 'root',
-  password: '123456',
+  password: 'Zd?12315',
   database: 'donblog',
   host: '127.0.0.1',
   port: 3306
@@ -10,8 +10,8 @@ const db = {
   TAGS: 'tags',
   POSTS: 'posts',
   SETTINGS: 'settings',
-  FILEPATH: '',
-  IMAGEPATH: ''
+  FILEPATH: '/var/data/donblog/POST_FILES/',
+  IMAGEPATH: '/var/data/donblog/static/images/'
 }
 const query = (sql, val) => {
   return new Promise((resolve, reject) => {
