@@ -1,11 +1,18 @@
 const Koa = require('koa')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-const cors = require('@koa/cors')
+const cors = require('koa2-cors')
 const route = require('./router')   // 路由中间件
 const app = new Koa()
 
-app.use(cors())
+app.use(cors({
+  origin: function (ctx) {
+    return '*'
+  },
+  credentials: true,
+  allowMethods: ['GET', 'POST'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept']
+}))
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = app.env !== 'production'

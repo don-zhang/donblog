@@ -95,7 +95,7 @@ router.get('/like', koaBody(), async (ctx) => {
  */
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, db.IMAGEPATH)
+    cb(null, '../static/images/')
   },
   filename: function (req, file, cb) {
     let fileParams = file.originalname.split('.')
@@ -120,7 +120,7 @@ router.post('delImg', koaBody(), async (ctx) => {
   let query = ctx.query
   let paths = query.filepath.split('/')
   let filename = paths[paths.length - 1]
-  fs.unlink(db.IMAGEPATH + filename, (err) => {
+  fs.unlink('../static/images/' + filename, (err) => {
     ctx.body = {
       code: 100,
       data: '删除成功'

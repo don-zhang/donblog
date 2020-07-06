@@ -1,45 +1,37 @@
 <template>
-  <div class="post">
+  <div class="article">
     <div class="back-button">
       <a-button @click="back">
         <a-icon type="left" />返回
       </a-button>
     </div>
-    <div
-      v-if="post.BACK_PICTURE"
+    <div v-if="post.BACK_PICTURE"
       class="top-picture"
-      :style="'background-image: url(' + post.BACK_PICTURE + ')'"
-    >
+      :style="'background-image: url(' + post.BACK_PICTURE + ')'">
       <div class="picture-source">图片来源必应(bing.com)</div>
     </div>
     <div class="abstract">
       <div class="title">{{post.TITLE}}</div>
       <div class="sub-title">
         <div class="date">
-          <a-icon type="calendar" style="margin-right: 8px" />
+          <a-icon type="calendar"
+            style="margin-right: 8px" />
           {{post.PUB_DATE}}
         </div>
         <div class="like">
-          <a-icon type="like-o" style="margin-right: 8px" />
+          <a-icon type="like-o"
+            style="margin-right: 8px" />
           {{post.LIKE_NUMBER}}
         </div>
       </div>
     </div>
-    <no-ssr>
-      <mavon-editor
-        :value="post.FILE_CONTENT"
-        :subfield="false"
-        defaultOpen="preview"
-        :toolbarsFlag="false"
-        :editable="false"
-        boxShadowStyle="none"
-        :ishljs="true"
-        :externalLink="externalLink"
-      ></mavon-editor>
-    </no-ssr>
+    <div class="markdown-content"
+      v-html="post.html"
+      v-highlight></div>
     <div class="last">
       <div>无评论功能，如果文章对你有帮助，欢迎点赞支持</div>
-      <a-button @click="like(post.ID)" style="margin-top: 15px;">
+      <a-button @click="like(post.ID)"
+        style="margin-top: 15px;">
         <a-icon type="like" />点赞
       </a-button>
     </div>
@@ -50,43 +42,16 @@
         </div>
       </a-back-top>
     </div>
+    <div class="image-model"
+      id="imageModel"
+      @click="hideImageModel">
+    </div>
   </div>
 </template>
 
 <script>
 import { postDetailApi, likeApi } from '@/http/api/postApi'
 export default {
-  data() {
-    return {
-      //externalLink: false
-      externalLink: {
-        markdown_css: function() {
-          // 这是你的markdown css文件路径
-          return '/highlightjs/styles/monokai-sublime.min.css'
-        },
-        hljs_js: function() {
-          // 这是你的hljs文件路径
-          return '/highlightjs/highlight.min.js'
-        },
-        hljs_css: function() {
-          // 这是你的代码高亮配色文件路径
-          return '/highlightjs/styles/monokai-sublime.min.css'
-        },
-        hljs_lang: function(lang) {
-          // 这是你的代码高亮语言解析路径
-          return '/highlightjs/languages/' + lang + '.min.js'
-        },
-        katex_css: function() {
-          // 这是你的katex配色方案路径路径
-          return '/katex/katex.min.css'
-        },
-        katex_js: function() {
-          // 这是你的katex.js路径
-          return '/katex/katex.min.js'
-        }
-      }
-    }
-  },
   /**
    * 服务端获取首页数据，渲染后将结果页面直接发送至浏览器
    */
@@ -113,13 +78,17 @@ export default {
       } else {
         this.$message.error(res.data)
       }
+    },
+
+    hideImageModel() {
+      document.getElementById('imageModel').style = 'display: none;'
     }
   }
 }
 </script>
 
-<style scoped lang="less">
-.post {
+<style lang="less">
+.article {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
@@ -166,6 +135,33 @@ export default {
     font-size: 14px;
     color: #cccccc;
     margin-top: 60px;
+  }
+  .markdown-content {
+    padding: 0 20px;
+    code {
+      margin-bottom: 0.5rem;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+    }
+  }
+  .image-model {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: rgba(29, 29, 29, 0.6);
+    z-index: 99999;
+    text-align: center;
+    overflow: auto;
+    img {
+      margin: 20% auto;
+    }
   }
 }
 </style>

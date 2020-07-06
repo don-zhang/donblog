@@ -1,6 +1,7 @@
 const { db, query } = require('./query')
 var random = require('string-random')
 const fs = require('fs')
+const showdown = require('showdown')
 module.exports = {
   /**
  * 首页-获取所有文章信息
@@ -27,15 +28,25 @@ module.exports = {
    * 获取文章详情
    */
   async getPost(filter) {
-    // 更新阅读数量
-    query(`UPDATE ${db.POSTS} SET VIEW_NUMBER=VIEW_NUMBER+1 WHERE ID=?`, [filter])
-    // 获取文章内容
-    let sql = `SELECT * FROM ${db.POSTS} WHERE ID=?`
-    let result = await query(sql, [filter])
-    let file = fs.readFileSync(result[0].FILE_PATH)
-    let postObj = Object.assign({ FILE_CONTENT: '' }, result[0])
-    postObj.FILE_CONTENT = file.toString()
-    return postObj
+    return new Promise(async (resolve, reject) => {
+      try {
+        // 更新阅读数量
+        query(`UPDATE ${db.POSTS} SET VIEW_NUMBER=VIEW_NUMBER+1 WHERE ID=?`, [filter])
+        // 获取文章内容
+        let sql = `SELECT * FROM ${db.POSTS} WHERE ID=?`
+        let result = await query(sql, [filter])
+        let file = fs.readFileSync(result[0].FILE_PATH)
+        let postObj = Object.assign({ FILE_CONTENT: '' }, result[0])
+
+        const converter = new showdown.Converter()
+        const html = converter.makeHtml(file.toString())
+        postObj.html = html
+        resolve(postObj)
+      } catch (e) {
+        console.dir(e)
+        reject(null)
+      }
+    })
   },
 
   /**
@@ -71,7 +82,8 @@ module.exports = {
       }
     }
     let postID = random(16)
-    let filePath = db.FILEPATH + data.title + '.md'
+    let fileName = data.title + '.md'
+    let filePath = __dirname + '/POST_FILES/' + fileName
     // markdown数据写入文件
     fs.writeFile(filePath, data.content, function (err) {
       if (err) {
@@ -81,7 +93,7 @@ module.exports = {
     // 插入新文章
     let result = await query(`INSERT INTO ${db.POSTS}(ID, TITLE, PUB_DATE, DESCRIPTION, FILE_PATH, TAG_ID, TAG_NAME, BACK_PICTURE) 
                               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [postID, data.title, data.date, data.description, filePath, tagID, tagName, data.backPicture])
+      [postID, data.title, data.date, data.description, fileName, tagID, tagName, data.backPicture])
     if (result.affectedRows === 1) {
       // 分类中的文章数量加一
       query(`UPDATE ${db.TAGS} SET POST_NUMBER = POST_NUMBER + 1 WHERE ID=?`, [tagID])

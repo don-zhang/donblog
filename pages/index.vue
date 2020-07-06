@@ -1,8 +1,12 @@
 <template>
   <div>
     <div class="top-nav">
-      <a-badge :count="tag.POST_NUMBER" v-for="(tag, index) in tags" :key="index" class="nav-point">
-        <div class="post-tag" @click="clickTag(tag.ID)">{{tag.TAG_NAME}}</div>
+      <a-badge :count="tag.POST_NUMBER"
+        v-for="(tag, index) in tags"
+        :key="index"
+        class="nav-point">
+        <div class="post-tag"
+          @click="clickTag(tag.ID)">{{tag.TAG_NAME}}</div>
       </a-badge>
     </div>
     <div class="post-list">
@@ -10,36 +14,37 @@
         文章列表
         <div class="post-title-line"></div>
       </div>
-      <a-list
-        itemLayout="vertical"
+      <a-list itemLayout="vertical"
         size="large"
         :pagination="pagination"
         :dataSource="posts"
-        :split="false"
-      >
-        <a-list-item slot="renderItem" slot-scope="item" key="item.TITLE" class="post-item">
+        :split="false">
+        <a-list-item slot="renderItem"
+          slot-scope="item"
+          key="item.TITLE"
+          class="post-item">
           <template slot="actions">
             <div>
-              <a-icon type="like-o" style="margin-right: 8px" />
+              <a-icon type="like-o"
+                style="margin-right: 8px" />
               {{item.LIKE_NUMBER}}
             </div>
           </template>
-          <img
-            v-if="item.BACK_PICTURE"
+          <img v-if="item.BACK_PICTURE"
             slot="extra"
             width="272"
             alt="logo"
-            :src="item.BACK_PICTURE"
-          />
-          <a-skeleton active :loading="loading">
+            :src="item.BACK_PICTURE" />
+          <a-skeleton active
+            :loading="loading">
             <a-list-item-meta>
-              <nuxt-link
-                slot="title"
+              <nuxt-link slot="title"
+                no-prefetch
                 :to="'/post/' + item.ID"
-                class="post-item-title"
-              >{{item.TITLE}}</nuxt-link>
+                class="post-item-title">{{item.TITLE}}</nuxt-link>
               <template slot="description">
-                <a-icon type="calendar" style="margin-right: 8px" />
+                <a-icon type="calendar"
+                  style="margin-right: 8px" />
                 {{item.PUB_DATE}}
               </template>
             </a-list-item-meta>
