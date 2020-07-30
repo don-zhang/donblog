@@ -35,10 +35,17 @@ module.exports = {
         // 获取文章内容
         let sql = `SELECT * FROM ${db.POSTS} WHERE ID=?`
         let result = await query(sql, [filter])
-        let file = fs.readFileSync(result[0].FILE_PATH)
-        let postObj = Object.assign({ FILE_CONTENT: '' }, result[0])
+        let file = fs.readFileSync(__dirname + '/POST_FILES/' + result[0].FILE_PATH)
+        let postObj = Object.assign({}, result[0])
 
-        const converter = new showdown.Converter()
+        const converter = new showdown.Converter({
+          omitExtraWLInCodeBlocks: true,
+          parseImgDimensions: true,
+          simplifiedAutoLink: true,
+          tables: true,
+          ghCodeBlocks: true,
+          tasklists: true
+        })
         const html = converter.makeHtml(file.toString())
         postObj.html = html
         resolve(postObj)
@@ -73,7 +80,7 @@ module.exports = {
     if (data.tagId == '0') {
       tagID = random(16)
       let tagRes = await query(`INSERT INTO ${db.TAGS}(ID, TAG_NAME, POST_NUMBER) VALUES (?, ?, ?)`,
-        [tagID, data.tagName, 1])
+        [tagID, data.tagName, 0])
       if (tagRes.affectedRows === 0) {
         return {
           rows: 0,

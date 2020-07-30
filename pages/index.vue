@@ -1,84 +1,51 @@
 <template>
-  <div>
-    <div class="top-nav">
-      <a-badge :count="tag.POST_NUMBER"
-        v-for="(tag, index) in tags"
-        :key="index"
-        class="nav-point">
-        <div class="post-tag"
-          @click="clickTag(tag.ID)">{{tag.TAG_NAME}}</div>
-      </a-badge>
-    </div>
+  <div class="main-page">
     <div class="post-list">
       <div class="post-title">
         文章列表
         <div class="post-title-line"></div>
       </div>
-      <a-list itemLayout="vertical"
-        size="large"
-        :pagination="pagination"
-        :dataSource="posts"
-        :split="false">
-        <a-list-item slot="renderItem"
-          slot-scope="item"
-          key="item.TITLE"
-          class="post-item">
-          <template slot="actions">
-            <div>
-              <a-icon type="like-o"
-                style="margin-right: 8px" />
-              {{item.LIKE_NUMBER}}
-            </div>
-          </template>
+      <div class="post-item"
+        v-for="item in posts"
+        :key="item.ID">
+        <div class="back-img">
           <img v-if="item.BACK_PICTURE"
-            slot="extra"
-            width="272"
-            alt="logo"
             :src="item.BACK_PICTURE" />
-          <a-skeleton active
-            :loading="loading">
-            <a-list-item-meta>
-              <nuxt-link slot="title"
-                no-prefetch
-                :to="'/post/' + item.ID"
-                class="post-item-title">{{item.TITLE}}</nuxt-link>
-              <template slot="description">
-                <a-icon type="calendar"
-                  style="margin-right: 8px" />
-                {{item.PUB_DATE}}
-              </template>
-            </a-list-item-meta>
-          </a-skeleton>
-          <div v-html="item.DESCRIPTION"></div>
-        </a-list-item>
-        <div slot="footer">
-          总数：
-          <b>{{posts.length}}</b>
         </div>
-      </a-list>
-    </div>
-    <div class="back-top">
-      <a-back-top>
-        <div class="ant-back-top-inner">
-          <a-icon type="to-top" />
+        <div class="title">
+          <nuxt-link no-prefetch
+            :to="'/post/' + item.ID"
+            class="post-item-title">{{item.TITLE}}</nuxt-link>
         </div>
-      </a-back-top>
+        <div class="description">{{item.DESCRIPTION}}</div>
+        <div class="tip-bar">
+          <div class="date"><i class="iconfont icon-riqi"></i>{{item.PUB_DATE}}</div>
+          <div class="view"><i class="iconfont icon-chakan"></i>{{item.VIEW_NUMBER}}</div>
+          <div class="like"><i class="iconfont icon-dianzan"></i>{{item.LIKE_NUMBER}}</div>
+        </div>
+      </div>
     </div>
+    <tags @update="updatePost"
+      :tags="tags"></tags>
   </div>
 </template>
 
 <script>
 import { tagsApi, postApi, tagSortApi } from '@/http/api/postApi'
+import Tags from '@/components/Tags'
 export default {
+  components: {
+    Tags,
+  },
   data() {
     return {
       loading: false,
       pagination: {
-        onChange: page => {
+        onChange: (page) => {
           console.log(page)
         },
-        pageSize: 10
-      }
+        pageSize: 10,
+      },
     }
   },
   /**
@@ -88,51 +55,28 @@ export default {
     let [tags, items] = await Promise.all([tagsApi(), postApi()])
     return {
       tags: tags.data,
-      posts: items.data
+      posts: items.data,
     }
   },
 
   methods: {
-    /**
-     * 点击分类标签
-     */
-    async clickTag(id) {
-      this.loading = true
-      let result = await tagSortApi(`?id=` + id)
-      this.loading = false
-      this.posts = result.data
-    }
-  }
+    updatePost(data) {
+      this.posts = data
+    },
+  },
 }
 </script>
 
 <style lang="less">
-.top-nav {
-  .nav-point {
-    min-width: 200px;
-    margin: 10px 20px 10px 0;
-    .post-tag {
-      background: #c2b9da;
-      height: 36px;
-      line-height: 36px;
-      padding: 0 10px;
-      cursor: pointer;
-      color: #ffffff;
-      border-radius: 5px;
-      font-weight: bold;
-      text-shadow: 4px 4px 3px #383838;
-      &:hover {
-        background-color: rgba(124, 74, 255, 0.75);
-      }
-    }
-    sup {
-      background-color: rgb(255, 255, 255);
-      color: rgb(153, 153, 153);
-      box-shadow: rgb(217, 217, 217) 0px 0px 0px 1px inset;
-    }
-  }
+.main-page {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 .post-list {
+  background: #ffffff;
+  max-width: 780px;
+  border-radius: 8px;
   .post-title {
     position: relative;
     width: 100%;
@@ -142,6 +86,7 @@ export default {
     font-weight: bold;
     border-left: 3px;
     word-spacing: 1px;
+    padding-left: 15px;
     .post-title-line {
       position: absolute;
       left: 30px;
@@ -157,12 +102,38 @@ export default {
     padding: 16px 15px;
     border-bottom: 1px solid #f5f5f5;
     &:hover {
-      background-color: rgba(242, 237, 255, 0.75);
+      background-color: rgba(230, 230, 230, 0.8);
     }
-    .post-item-title {
-      font-size: 18px;
-      font-weight: bold;
-      word-spacing: 2px;
+    .back-img {
+      img {
+        width: 100%;
+        height: 350px;
+        border-radius: 6px;
+      }
+    }
+    .title {
+      height: 60px;
+      line-height: 60px;
+      a {
+        color: #000000;
+        font-size: 24px;
+        text-decoration: unset;
+      }
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .tip-bar {
+      display: flex;
+      justify-content: flex-start;
+      height: 50px;
+      align-items: center;
+      div {
+        margin-right: 40px;
+      }
+      i {
+        margin-right: 10px;
+      }
     }
   }
 }

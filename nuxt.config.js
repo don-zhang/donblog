@@ -1,6 +1,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 module.exports = {
+  telemetry: true,
   mode: 'universal',
   /*
   ** Headers of the page
@@ -24,14 +25,13 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    'assets/main.css',
-    'ant-design-vue/dist/antd.css'
+    'assets/main.less',
+    'assets/iconfont/iconfont.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/antd-ui',
     { src: '@/plugins/mavon-editor', ssr: false },
     '@/plugins/highlight'
   ],

@@ -1,9 +1,9 @@
 <template>
   <div class="article">
     <div class="back-button">
-      <a-button @click="back">
-        <a-icon type="left" />返回
-      </a-button>
+      <button @click="back">
+        <i class="iconfont icon-zhuanhuidao"></i>
+      </button>
     </div>
     <div v-if="post.BACK_PICTURE"
       class="top-picture"
@@ -14,33 +14,28 @@
       <div class="title">{{post.TITLE}}</div>
       <div class="sub-title">
         <div class="date">
-          <a-icon type="calendar"
-            style="margin-right: 8px" />
+          <i class="iconfont icon-riqi"></i>
           {{post.PUB_DATE}}
         </div>
+        <div class="view">
+          <i class="iconfont icon-chakan"></i>
+          {{post.VIEW_NUMBER}}
+        </div>
         <div class="like">
-          <a-icon type="like-o"
-            style="margin-right: 8px" />
+          <i class="iconfont icon-dianzan"></i>
           {{post.LIKE_NUMBER}}
         </div>
       </div>
     </div>
-    <div class="markdown-content"
+    <div class="main-content"
       v-html="post.html"
       v-highlight></div>
     <div class="last">
       <div>无评论功能，如果文章对你有帮助，欢迎点赞支持</div>
-      <a-button @click="like(post.ID)"
+      <button @click="like(post.ID)"
         style="margin-top: 15px;">
-        <a-icon type="like" />点赞
-      </a-button>
-    </div>
-    <div class="back-top">
-      <a-back-top>
-        <div class="ant-back-top-inner">
-          <a-icon type="to-top" />
-        </div>
-      </a-back-top>
+        <i class="iconfont icon-dianzan"></i>点赞
+      </button>
     </div>
     <div class="image-model"
       id="imageModel"
@@ -59,7 +54,7 @@ export default {
     try {
       let res = await postDetailApi('?id=' + params.id)
       return {
-        post: res.data
+        post: res.data,
       }
     } catch (error) {
       redirect('/error/index')
@@ -82,16 +77,26 @@ export default {
 
     hideImageModel() {
       document.getElementById('imageModel').style = 'display: none;'
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="less">
+.main-content {
+  padding: 0 20px;
+  img {
+    width: 100%;
+    cursor: pointer;
+  }
+}
 .article {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
   .back-button {
     position: fixed;
     left: 5%;
@@ -126,8 +131,11 @@ export default {
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      .date {
+      div {
         margin-right: 40px;
+        i {
+          margin-right: 20px;
+        }
       }
     }
   }
@@ -135,18 +143,6 @@ export default {
     font-size: 14px;
     color: #cccccc;
     margin-top: 60px;
-  }
-  .markdown-content {
-    padding: 0 20px;
-    code {
-      margin-bottom: 0.5rem;
-    }
-    img {
-      max-width: 100%;
-      display: block;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-    }
   }
   .image-model {
     display: none;

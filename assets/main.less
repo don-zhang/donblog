@@ -1,0 +1,36 @@
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+}
+.donblog {
+  padding: 0;
+  margin: 0;
+  min-width: 900px;
+  button {
+    margin-top: 15px;
+    border: unset;
+    background-color: #fb889a;
+    border-radius: 4px;
+    height: 35px;
+    padding: 3px 10px;
+    color: #ffffff;
+    cursor: pointer;
+    &:hover{
+      background-color: #f06277;
+    }
+    &:focus{
+      border: unset;
+      outline: unset;
+    }
+  }
+}
+@media screen and (max-width: 900px){
+  .top-nav{
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    display: flex;
+  }
+}
